@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block content %}
+<section class="hero reveal"><div class="hero-copy"><span class="eyebrow">A DIGITAL HOME FOR YOUR MEMORIES</span>
+<h1>Keep the moments<br><em>that matter.</em></h1><p>{{ welcome }}</p>
+<div class="actions"><a class="btn primary" href="#memories">Explore memories <span>↘</span></a><a class="btn ghost" href="{{ url_for('about') }}">About the hub</a></div></div>
+<div class="hero-card"><div class="orb"></div><div class="card-note"><span>✦</span><div><b>ABISHEK</b><small>memory garden</small></div></div><p>Every photo, story and little note has a place here.</p></div></section>
+<section class="stats reveal"><div><b>{{ stats.memories }}</b><span>Memories</span></div><div><b>{{ stats.photos }}</b><span>Photos</span></div><div><b>{{ stats.videos }}</b><span>Videos</span></div><div><b>{{ stats.stories }}</b><span>Stories</span></div></section>
+<section id="memories" class="section reveal"><div class="section-head"><div><span class="eyebrow">RECENTLY SAVED</span><h2>Little pieces of life.</h2></div><a href="{{ url_for('library',kind='photo') }}">View library →</a></div>
+<div class="grid">{% for i in items %}<a class="memory" href="{{ url_for('item',item_id=i.id) }}">
+<div class="memory-media kind-{{ i.kind }}">{% if i.filename and i.kind=='photo' %}<img src="{{ url_for('media',name=i.filename) }}">{% else %}<span>{{ {'photo':'✦','video':'▶','audio':'♫','story':'✎','document':'▤'}.get(i.kind,'✦') }}</span>{% endif %}</div>
+<div class="memory-body"><small>{{ i.kind|upper }}{% if i.album_name %} · {{ i.album_name }}{% endif %}</small><h3>{{ i.title }}</h3><p>{{ i.description[:100] }}</p></div></a>{% else %}<div class="empty">Your first memory is waiting to be added from the admin dashboard.</div>{% endfor %}</div></section>
+<section class="section reveal"><div class="section-head"><div><span class="eyebrow">COLLECTIONS</span><h2>Albums with a feeling.</h2></div><a href="{{ url_for('albums') }}">All albums →</a></div><div class="album-row">{% for a in albums %}<a class="album" href="{{ url_for('album',album_id=a.id) }}"><span>◌</span><b>{{ a.name }}</b><small>{{ a.description }}</small></a>{% else %}<div class="empty">Create your first album in admin.</div>{% endfor %}</div></section>
+{% endblock %}

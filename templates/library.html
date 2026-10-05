@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block content %}
+<section class="pagehead reveal"><span class="eyebrow">{{ kind|upper }}</span><h1>{% if album %}{{ album.name }}{% else %}{{ kind|capitalize }} library{% endif %}</h1><p>{% if album %}{{ album.description }}{% else %}A clean place for your {{ kind }} memories.{% endif %}</p></section>
+<section class="section"><div class="grid">{% for i in items %}<a class="memory reveal" href="{{ url_for('item',item_id=i.id) }}"><div class="memory-media kind-{{ i.kind }}">{% if i.filename and i.kind=='photo' %}<img src="{{ url_for('media',name=i.filename) }}">{% else %}<span>{{ {'video':'▶','audio':'♫','story':'✎','document':'▤'}.get(i.kind,'✦') }}</span>{% endif %}</div><div class="memory-body"><small>{{ i.kind|upper }}</small><h3>{{ i.title }}</h3><p>{{ i.description[:110] }}</p></div></a>{% else %}<div class="empty">Nothing here yet.</div>{% endfor %}</div></section>
+{% endblock %}
